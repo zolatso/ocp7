@@ -44,50 +44,25 @@ def best_portfolio(candidates):
     best_portfolio = candidates[highest_return[0][0]]
     return best_portfolio
 
-def get_overall_best(actions, subset_size):
-    portfolios = []
+def find_best_portfolio(actions, subset_size):
+    best_portfolios = []
     for i in range(0, subset_size):
         portfolios = list(combinations(actions.keys(), subset_size - i))
         candidates = candidate_portfolios(portfolios, actions)
         best = best_portfolio(candidates)
-        portfolios.append(best)
-    print(portfolios)
-    # overall_best = best_portfolio(portfolios)
-    # return overall_best
+        best_portfolios.append(best)
+    overall_best = best_portfolio(best_portfolios)
+    return overall_best
 
 def main():
     actions = extract_data('list-dactions.csv')
     subset_size = largest_possible_subset(actions)
 
-    best_combination = get_overall_best(actions, subset_size) 
-    # value_of_best_portfolio = round(sum([value[2] for value in best_combination.values()]), 2)
-
-    # print(best_combination)
-    # print(len(best_combination))
-    # print(value_of_best_portfolio)
-
-    # portfolios = list(combinations(actions.keys(), subset_size-1))
-    # candidates = candidate_portfolios(portfolios, actions)
-    # best = best_portfolio(candidates)
-    # value_of_best_portfolio = round(sum([value[2] for value in best.values()]), 2)
-    # print(len(best))
-    # print(value_of_best_portfolio)
-
-    # portfolios = list(combinations(actions.keys(), subset_size-2))
-    # candidates = candidate_portfolios(portfolios, actions)
-    # best = best_portfolio(candidates)
-    # value_of_best_portfolio = round(sum([value[2] for value in best.values()]), 2)
-    # print(len(best))
-    # print(value_of_best_portfolio)
-
-    # portfolios = list(combinations(actions.keys(), subset_size-3))
-    # candidates = candidate_portfolios(portfolios, actions)
-    # best = best_portfolio(candidates)
-    # value_of_best_portfolio = round(sum([value[2] for value in best.values()]), 2)
-    # print(len(best))
-    # print(value_of_best_portfolio)
-
-
+    best_combination = find_best_portfolio(actions, subset_size) 
+    value_of_best_portfolio = round(sum([value[2] for value in best_combination.values()]), 2)
+    print(best_combination)
+    print(len(best_combination))
+    print(value_of_best_portfolio)
 
 if __name__ == "__main__":
     main()
