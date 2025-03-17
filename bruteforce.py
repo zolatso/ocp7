@@ -2,8 +2,12 @@ from csv_reader import extract_data_dictionary
 from itertools import combinations
 
 def largest_possible_subset(actions):
-    set = sorted([value[0] for value in actions.values()])
-    for i in range(len(actions)-1, -1, -1):
+    "This function finds the largest subset of all the stocks"
+    # Create a sorted list of the prices of all stocks 
+    # Organized from most to least expensive
+    set = sorted([value[0] for value in actions.values()], reverse=True)
+    # Working backwards from 
+    for i in range(len(actions)-1, 0, -1):
         if sum(set[:i+1]) > 500:
             continue
         else:
