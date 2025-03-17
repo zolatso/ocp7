@@ -35,10 +35,13 @@ def candidate_portfolios(portfolios, actions):
             candidates.append(portfolio)
     return candidates
 
+def get_portfolio_return(portfolio):
+    return round(sum([value[2] for value in portfolio.values()]), 2)
+
 def best_portfolio(candidates):
     all_portfolio_gains = []
     for i, portfolio in enumerate(candidates):
-        total_gains = round(sum([value[2] for value in portfolio.values()]), 2)
+        total_gains = get_portfolio_return(portfolio)
         all_portfolio_gains.append((i, total_gains))
     highest_return = sorted(all_portfolio_gains, key=lambda x: x[1], reverse=True)
     best_portfolio = candidates[highest_return[0][0]]
@@ -59,7 +62,7 @@ def main():
     subset_size = largest_possible_subset(actions)
 
     best_combination = find_best_portfolio(actions, subset_size) 
-    value_of_best_portfolio = round(sum([value[2] for value in best_combination.values()]), 2)
+    value_of_best_portfolio = get_portfolio_return(portfolio)
     print(best_combination)
     print(len(best_combination))
     print(value_of_best_portfolio)
