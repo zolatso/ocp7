@@ -20,6 +20,12 @@ def largest_possible_subset(actions):
             continue
         else:
             return i + 1
+
+def get_portfolio_return(portfolio):
+    return round(sum([value[2] for value in portfolio.values()]), 2)
+
+def get_portfolio_cost(portfolio):
+    return round(sum([value[0] for value in portfolio.values()]), 2)
     
 def candidate_portfolios(portfolios, actions):
     candidates = []
@@ -30,13 +36,9 @@ def candidate_portfolios(portfolios, actions):
             gain = actions[stock][1]
             realised_gain = actions[stock][2]
             portfolio[stock] = (price, gain, realised_gain)
-        total_cost = sum([value[0] for value in portfolio.values()])
-        if total_cost < 500:
+        if get_portfolio_cost(portfolio) < 500:
             candidates.append(portfolio)
     return candidates
-
-def get_portfolio_return(portfolio):
-    return round(sum([value[2] for value in portfolio.values()]), 2)
 
 def best_portfolio(candidates):
     all_portfolio_gains = []
