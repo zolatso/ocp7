@@ -1,19 +1,13 @@
-from csv_reader import extract_data_dictionary
+from csv_reader import extract_data_class
 from itertools import combinations
 
-def largest_possible_subset(actions):
-    set = sorted([value[0] for value in actions.values()])
+def largest_possible_subset(all_actions):
+    set = sorted([action.price for action in all_actions.actions])
     for i in range(len(actions)-1, -1, -1):
         if sum(set[:i+1]) > 500:
             continue
         else:
             return i + 1
-
-def get_portfolio_return(portfolio):
-    return round(sum([value[2] for value in portfolio.values()]), 2)
-
-def get_portfolio_cost(portfolio):
-    return round(sum([value[0] for value in portfolio.values()]), 2)
     
 def candidate_portfolios(portfolios, actions):
     candidates = []
@@ -48,14 +42,16 @@ def find_best_portfolio(actions, subset_size):
     return overall_best
 
 def main():
-    actions = extract_data('list-dactions.csv')
-    subset_size = largest_possible_subset(actions)
+    all_actions = extract_data_class('list-dactions.csv')
+    print(all_actions)
 
-    best_combination = find_best_portfolio(actions, subset_size) 
-    value_of_best_portfolio = get_portfolio_return(portfolio)
-    print(best_combination)
-    print(len(best_combination))
-    print(value_of_best_portfolio)
+    # subset_size = largest_possible_subset(actions)
+
+    # best_combination = find_best_portfolio(actions, subset_size) 
+    # value_of_best_portfolio = get_portfolio_return(portfolio)
+    # print(best_combination)
+    # print(len(best_combination))
+    # print(value_of_best_portfolio)
 
 if __name__ == "__main__":
     main()
