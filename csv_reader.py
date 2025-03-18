@@ -1,9 +1,9 @@
 import csv 
-from classes import Action, Portfolio
+#from classes import Action, Portfolio
 
 def extract_data_dictionary(file): 
     actions = {}
-    with open(file, newline='') as csvfile:
+    with open(file) as csvfile:
         csvreader = csv.reader(csvfile, delimiter=',')
         next(csvreader)
         for row in csvreader:

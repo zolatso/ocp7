@@ -2,6 +2,34 @@ from csv_reader import extract_data_dictionary
 from itertools import combinations
 from time import perf_counter
 
+def largest_possible_subset(actions):
+    """
+    We want to know what is the largest subset where the cheapest
+    combination of stocks is permissible, i.e., under the threshold of 500 euros
+    """
+    # Create a sorted list of the prices of all stocks 
+    # Organized from most to least expensive
+    set = sorted([value[0] for value in actions.values()], reverse=True)
+    # Working backwards from 
+    for i in range(len(actions)):
+        if sum(set[i:]) > 500:
+            continue
+        else:
+            return len(actions) - i
+        
+def largest_size_all_under_500(actions):
+    """
+    We want to know which is the largest size of subset where all possible
+    combinations are permissible, i.e., under the threshold of 500 euros
+    """
+    set = sorted([value[0] for value in actions.values()])
+    for i in range(len(actions)):
+        if sum(set[i:]) > 500:
+            continue
+        else:
+            return len(actions) - i
+
+        
 def get_portfolio_return(portfolio):
     # Calculate the return on a given portfolio (dictionary)
     return round(sum([value[2] for value in portfolio.values()]), 2)
@@ -16,10 +44,10 @@ def candidate_portfolios(combined_keys, actions):
     # that match the price criterion
     candidates = []
     for candidate in combined_keys:
-        # For each combination of stock names, we need to reconstruct 
-        # its original dictionary
         portfolio = {}
         for stock in candidate:
+            # For each combination of stock names, we need to reconstruct 
+            # its original dictionary
             price = actions[stock][0]
             gain = actions[stock][1]
             realised_gain = actions[stock][2]
@@ -44,14 +72,13 @@ def best_portfolio(candidates):
     highest_return = sorted(all_portfolio_gains, key=lambda x: x[1], reverse=True)
     return candidates[highest_return[0][0]]
 
-def find_best_portfolio(actions):
+def find_best_portfolio(actions, subset_max, subset_min):
     best_portfolios = []
-    subset_size = len(actions)
-    for i in range(subset_size):
-        print(i + 1)
+    for i in range(subset_min, subset_max + 1):
+        print(i)
         # This line uses itertools to generate all unique combinations of keys
         # for each length of subset
-        combined_keys = list(combinations(actions.keys(), subset_size - i))
+        combined_keys = list(combinations(actions.keys(), i))
         # This function reconstructs the dictionaries from the key combinations
         # and checks if they are too expensive
         candidates = candidate_portfolios(combined_keys, actions)
@@ -72,21 +99,23 @@ def find_best_portfolio(actions):
 
 def main():
     t1_start = perf_counter()
+
     actions = extract_data_dictionary('list-dactions.csv')
-    # subset_size = largest_possible_subset(actions)
-    
-    best_combination = find_best_portfolio(actions) 
+    subset_max = largest_possible_subset(actions)
+    subset_min = largest_size_all_under_500(actions)
+
+    best_combination = find_best_portfolio(actions, subset_max, subset_min) 
     best_return = get_portfolio_return(best_combination)
     best_cost = get_portfolio_cost(best_combination)
-    t1_stop = perf_counter()
 
+    t1_stop = perf_counter()
+    
     print("Name: Price / Percentage / Actual return")
     for key, value in best_combination.items():
         print(f"{key}: {value[0], value[1], value[2]}")
     print(f"Total cost: {best_cost}")
     print(f"Total return: {best_return}")
     print(f"Elapsed time: {t1_stop-t1_start}")
-
 
 if __name__ == "__main__":
     main()
