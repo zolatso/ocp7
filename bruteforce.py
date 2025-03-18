@@ -2,7 +2,10 @@ from csv_reader import extract_data_dictionary
 from itertools import combinations
 
 def largest_possible_subset(actions):
-    "This function finds the largest subset of all the stocks"
+    """
+    We want to know what is the largest subset where the cheapest
+    combination of stocks is permissible, i.e., under the threshold of 500 euros
+    """
     # Create a sorted list of the prices of all stocks 
     # Organized from most to least expensive
     set = sorted([value[0] for value in actions.values()], reverse=True)
