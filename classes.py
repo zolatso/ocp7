@@ -7,15 +7,28 @@ class Action:
         self.percentage = percentage
         self.absolute_return = price * (percentage / 100)
 
+
 class Portfolio:
     def __init__(self):
         self.actions = []
+        self.cost = 0
+        self.total_return = 0
+
+    def __str__(self):
+        print_string = "Name: Price / Percentage / Actual return\n"
+        for action in self.actions:
+            print_string += f"{action.title}: {action.price, action.percentage, action.absolute_return}\n"
+        print_string += f"Total cost: {self.cost}\n"
+        print_string += f"Total return: {self.total_return}"
+        return print_string
+        
 
     def get_portfolio_return(self):
-        return round(sum([action.absolute_return for action in actions]), 2)
+        self.total_return = round(sum([action.absolute_return for action in self.actions]), 2)
 
     def get_portfolio_cost(self):
-        return round(sum([value[0] for value in portfolio.values()]), 2)
+        self.cost = round(sum([action.price for action in self.actions]), 2)
+    
 
 def main():
     portfolio = Portfolio()
@@ -25,7 +38,14 @@ def main():
     
     portfolio.actions.append(action1)
     portfolio.actions.append(action2)
-    print(action1)
+    portfolio.get_portfolio_cost()
+    portfolio.get_portfolio_return()
+
+    print("Name: Price / Percentage / Actual return")
+    for action in portfolio.actions:
+        print(f"{action.title}: {action.price, action.percentage, action.absolute_return}")
+    print(f"Total cost: {portfolio.cost}")
+    print(f"Total return: {portfolio.total_return}")
 
 if __name__ == "__main__":
     main()
