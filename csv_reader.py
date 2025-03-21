@@ -27,21 +27,7 @@ def extract_data_class(file):
     return portfolio
 
 def main():
-    portfolio = Portfolio()
-    action1 = Action('egg', 500, 10)
-    action2 = Action('cheese', 400, 20)
-
-    
-    portfolio.actions.append(action1)
-    portfolio.actions.append(action2)
-    portfolio.get_portfolio_cost()
-    portfolio.get_portfolio_return()
-
-    print("Name: Price / Percentage / Actual return")
-    for action in portfolio.actions:
-        print(f"{action.title}: {action.price, action.percentage, action.absolute_return}")
-    print(f"Total cost: {portfolio.cost}")
-    print(f"Total return: {portfolio.total_return}")
+    pass
 
 if __name__ == "__main__":
     main()
