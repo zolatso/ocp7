@@ -1,3 +1,5 @@
+from math import ceil
+
 class Action:
     def __init__(self, title, price, percentage):
         self.title = title

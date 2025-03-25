@@ -1,5 +1,6 @@
 import csv 
 from classes import Action, Portfolio
+from math import ceil
 
 def extract_data_dictionary(file): 
     actions = {}
@@ -19,8 +20,11 @@ def extract_data_class(file):
         csvreader = csv.reader(csvfile, delimiter=',')
         next(csvreader)
         for row in csvreader:
-            price = int(row[1])
-            gain = int(row[2][:-1])
+            # Skip stocks that are missing price information
+            if float(row[1]) == 0.0:
+                continue
+            price = abs(float(row[1]))
+            gain = abs(float(row[2]))
             portfolio.actions.append(Action(row[0], price, gain))
     portfolio.get_portfolio_cost()
     portfolio.get_portfolio_return()
