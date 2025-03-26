@@ -3,7 +3,7 @@ from csv_reader import extract_data_class, extract_data_dictionary
 from time import perf_counter
 from math import ceil
 
-def get_best_portfolio(weights, values, capacity):
+def selection_algorithm(weights, values, capacity):
     n = len(weights)
     # Create a 2D array to store results of subproblems
     # dp[i][j] = max value that can be obtained using first i items and with capacity j
@@ -36,77 +36,34 @@ def get_best_portfolio(weights, values, capacity):
     
     return selected_items
 
-def main():
-
-    all_actions = extract_data_class('dataset2-P7.csv')
-
-    prices = [action.price for action in all_actions.actions]
-    total_returns = [action.absolute_return for action in all_actions.actions]
+def get_best_portfolio(actions):
+    t1_start = perf_counter()
+    prices = [ceil(action.price) for action in actions.actions]
+    total_returns = [action.absolute_return for action in actions.actions]
     price_limit = 500
 
-    # rounded_selection = [
-    #     'Share-IXCI',
-    #     'Share-FWBE',
-    #     'Share-ZOFA',
-    #     'Share-PLLK',
-    #     'Share-LXZU',
-    #     'Share-ANFX',
-    #     'Share-PSMF',
-    #     'Share-PATS',
-    #     'Share-QSSO',
-    #     'Share-PUCI',
-    #     'Share-VCXT',
-    #     'Share-NDKR',
-    #     'Share-ALIY',
-    #     'Share-JWGF',
-    #     'Share-MPJI',
-    #     'Share-CDAN',
-    #     'Share-FAPS',
-    #     'Share-VCAX',
-    #     'Share-LFXB',
-    #     'Share-UPCV',
-    #     'Share-JVCL',
-    #     'Share-XQII',
-    #     'Share-PVHB',
-    #     'Share-ROOM',
-    # ]
-
-    # check = Portfolio()
-
-    # for stock in rounded_selection:
-    #     check.actions.append()
-
-    selected = get_best_portfolio_float(prices, total_returns, price_limit)
+    selected = selection_algorithm(prices, total_returns, price_limit)
 
     best_portfolio = Portfolio()
     for selection in selected:
-        best_portfolio.actions.append(all_actions.actions[selection])
+        best_portfolio.actions.append(actions.actions[selection])
     best_portfolio.get_portfolio_cost()
     best_portfolio.get_portfolio_return()
 
-    print(best_portfolio)
+    t1_stop = perf_counter()
+    time_elapsed = t1_stop - t1_start
 
-    
-    # print(f"Maximum value: {max_value}")
-    # print(f"Selected items (0-indexed): {selected}")
-    # print(f"Selected weights: {[weights[i] for i in selected]}")
-    # print(f"Selected values: {[values[i] for i in selected]}")
-    # print(f"Total weight: {sum(weights[i] for i in selected)}")
+    return best_portfolio, time_elapsed
 
-    # all_actions = extract_data_dictionary('list-dactions.csv')
 
-    # print(all_actions)
+def main():
 
-    # weights = [value[0] for value in all_actions.values()]
-    # values = [value[2] for value in all_actions.values()]
-    # capacity = 500
+    all_actions = extract_data_class('dataset1-P7.csv')
 
-    # max_value, selected = knapsack_iterative(weights, values, capacity)
-    # print(f"Maximum value: {max_value}")
-    # print(f"Selected items (0-indexed): {selected}")
-    # print(f"Selected weights: {[weights[i] for i in selected]}")
-    # print(f"Selected values: {[values[i] for i in selected]}")
-    # print(f"Total weight: {sum(weights[i] for i in selected)}")
+    best_portfolio, time_elapsed = get_best_portfolio(all_actions)
+    print(f"{best_portfolio}\n")
+    print(f"Time elapsed: {time_elapsed}")
+
 
 if __name__ == "__main__":
     main()

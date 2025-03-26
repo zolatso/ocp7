@@ -13,6 +13,17 @@ def get_portfolio_cost(portfolio):
     # the classes have their own version of this function as methods
     return round(sum([action.price for action in portfolio]), 2)
 
+def get_sum(portfolio):
+    prices = [action.price for action in portfolio]
+    sum = 0
+    if len(prices) == 1:
+        return prices[0]
+    else:
+        for i in range(0, len(prices)-1, 2):
+            add_pair = prices[i] + prices[i+1]
+            sum += add_pair
+        return round(sum, 2)
+
 def find_best_portfolio(portfolio):
     best_portfolios = []
     # The main for loop goes through all the possible combinations
