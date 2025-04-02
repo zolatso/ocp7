@@ -1,8 +1,7 @@
 from classes import Portfolio
-from csv_reader import extract_data_class, extract_data_dictionary
+from csv_reader import extract_data_class, export_dp_table
 from time import perf_counter
 from math import ceil
-from resource import *
 
 def selection_algorithm(prices, profit, limit):
     n = len(prices)
@@ -53,9 +52,9 @@ def get_best_portfolio(actions):
     t1_start = perf_counter()
     prices = [ceil(action.price) for action in actions.actions]
     total_returns = [action.absolute_return for action in actions.actions]
-    price_limit = 500
+    price_limit = 6
 
-    selected = selection_algorithm(prices, total_returns, price_limit)
+    selected, dp = selection_algorithm(prices, total_returns, price_limit)
 
     best_portfolio = Portfolio()
     for selection in selected:
@@ -66,22 +65,18 @@ def get_best_portfolio(actions):
     t1_stop = perf_counter()
     time_elapsed = t1_stop - t1_start
 
-    return best_portfolio, time_elapsed
+    return best_portfolio, time_elapsed, dp
 
 
 def main():
 
-    # all_actions = extract_data_class('dataset1-P7.csv')
+    all_actions = extract_data_class('dataset2-P7.csv')
 
-    # best_portfolio, time_elapsed = get_best_portfolio(all_actions)
-    # print(f"{best_portfolio}\n")
-    # print(f"Time elapsed: {time_elapsed}")
+    best_portfolio, time_elapsed, dp = get_best_portfolio(all_actions)
+    print(f"{best_portfolio}\n")
+    print(f"Time elapsed: {time_elapsed}")
 
-    selected, dp = selection_algorithm([2,3,4,5,6,7,8], [2,2,2,2,2,2,2], 20)
-
-    for row in dp:
-        print(row)
-    print(selected)
+    #export_dp_table(dp, all_actions)
 
 
 if __name__ == "__main__":
