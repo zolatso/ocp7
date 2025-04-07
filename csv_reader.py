@@ -29,18 +29,6 @@ def export_dp_table(table, all_actions):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerows(table)
 
-# def extract_data_dictionary(file): 
-#     actions = {}
-#     with open(file) as csvfile:
-#         csvreader = csv.reader(csvfile, delimiter=',')
-#         next(csvreader)
-#         for row in csvreader:
-#             price = int(row[1])
-#             gain = int(row[2][:-1])
-#             realised_gain = round(price * (gain / 100), 2)
-#             actions[row[0]] = (price, gain, realised_gain)
-#     return actions
-
 def main():
     pass
 

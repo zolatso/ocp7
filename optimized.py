@@ -1,5 +1,5 @@
 from classes import Portfolio
-from csv_reader import extract_data_class, export_dp_table
+from csv_reader import extract_data_class
 from time import perf_counter
 from math import ceil
 
@@ -52,7 +52,7 @@ def get_best_portfolio(actions):
     t1_start = perf_counter()
     prices = [ceil(action.price) for action in actions.actions]
     total_returns = [action.absolute_return for action in actions.actions]
-    price_limit = 6
+    price_limit = 500
 
     selected, dp = selection_algorithm(prices, total_returns, price_limit)
 
@@ -70,13 +70,11 @@ def get_best_portfolio(actions):
 
 def main():
 
-    all_actions = extract_data_class('dataset2-P7.csv')
+    all_actions = extract_data_class('dataset1.csv')
 
     best_portfolio, time_elapsed, dp = get_best_portfolio(all_actions)
     print(f"{best_portfolio}\n")
     print(f"Time elapsed: {time_elapsed}")
-
-    #export_dp_table(dp, all_actions)
 
 
 if __name__ == "__main__":
