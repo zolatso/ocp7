@@ -48,13 +48,12 @@ def selection_algorithm(prices, profit, limit):
     
     return selected_items, dp
 
-def get_best_portfolio(actions):
+def get_best_portfolio(actions, limit):
     t1_start = perf_counter()
     prices = [ceil(action.price) for action in actions.actions]
     total_returns = [action.absolute_return for action in actions.actions]
-    price_limit = 500
 
-    selected, dp = selection_algorithm(prices, total_returns, price_limit)
+    selected, dp = selection_algorithm(prices, total_returns, limit)
 
     best_portfolio = Portfolio()
     for selection in selected:
@@ -70,11 +69,15 @@ def get_best_portfolio(actions):
 
 def main():
 
-    all_actions = extract_data_class('dataset1.csv')
+    all_actions = extract_data_class('dataset3.csv')
 
-    best_portfolio, time_elapsed, dp = get_best_portfolio(all_actions)
+    initial_limit = 500
+
+    best_portfolio, time_elapsed, dp = get_best_portfolio(all_actions, initial_limit)
+
     print(f"{best_portfolio}\n")
     print(f"Time elapsed: {time_elapsed}")
+
 
 
 if __name__ == "__main__":
